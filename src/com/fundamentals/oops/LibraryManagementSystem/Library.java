@@ -1,51 +1,40 @@
 package com.fundamentals.oops.LibraryManagementSystem;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Library {
     private static final long BASE_CHARGE_PER_DAY = 10;
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
+    private List<User> users;
+    private List<Transaction> transactions = new ArrayList<>();
     private Librarian librarian;
 
-    private List<Transaction> transactions = new ArrayList<>();
+    public Library(){}
 
-    public Library(List<Book> books, Librarian librarian) {
+    public Library(List<Book> books, List<User> users, List<Transaction> transactions, Librarian librarian) {
         this.books = books;
+        this.users = users;
+        this.transactions = transactions;
         this.librarian = librarian;
     }
 
-    public void returnBook(Book book) {
-        System.out.println("Book returning: "+book);
-        System.out.println("Collected By: "+librarian.getName());
-        System.out.println("Total charges: "+calculateFees(LocalDate.of(2025,7,15)));
-        book.setStatus(Status.AVAILABLE);
+    public Optional<Book> findBookAvailabilityByTitle(String title){
+        return books.stream().filter(book -> book.getTitle().equalsIgnoreCase(title) && book.getStatus() == Status.AVAILABLE).findFirst();
     }
 
-    public double calculateFees(LocalDate returnDate) {
-        double fees = 0;
-        for (Transaction t : transactions){
-            if(returnDate.isAfter(t.getDueDate())){
-                long days = ChronoUnit.DAYS.between(t.getDueDate(), returnDate);
-                fees += days * 100;
-            }
-            long days = ChronoUnit.DAYS.between(t.getDueDate(), t.getIssueDate());
-            fees += days * BASE_CHARGE_PER_DAY;
-        }
-        return fees;
+    public void addTransaction(Transaction transaction){
+        transactions.add(transaction);
     }
 
-    public Book issueBook(User user, String bookId) {
-        for (Book b : books){
-            if(b.getIsbn().equals(bookId) && b.getStatus() == Status.AVAILABLE){
-                Transaction t = new Transaction(b,LocalDate.now(), LocalDate.now().plusDays(5));
-                transactions.add(t);
-                b.setStatus(Status.UNAVAILABLE);
-                return b;
-            }
-        }
-        return null;
+    public void addBook(Book book){
+        books.add(book);
+    }
+
+    public Optional<Transaction> findActiveTransaction(Book book, User user) {
+        return transactions.stream()
+                .filter(t -> t.getBook() == book && t.getUser() == user && !t.isReturned())
+                .findFirst();
     }
 }

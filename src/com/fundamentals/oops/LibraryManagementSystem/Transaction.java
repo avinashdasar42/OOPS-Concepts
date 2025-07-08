@@ -5,15 +5,20 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Transaction {
-//    private static final double BASE_CHARGE_PER_DAY = 10;
+    private static final double BASE_CHARGE_PER_DAY = 10;
     private Book book;
+    private User user;
     private LocalDate issueDate;
-    private LocalDate dueDate;
+    private LocalDate returnDate;
 
-    public Transaction(Book book, LocalDate issueDate, LocalDate dueDate){
+    public Transaction(Book book, User user){
         this.book = book;
-        this.issueDate = issueDate;
-        this.dueDate = dueDate;
+        this.user = user;
+        this.issueDate = LocalDate.now();
+    }
+
+    public void returnBook(){
+        this.returnDate = LocalDate.now();
     }
 
     public Book getBook() {
@@ -24,17 +29,16 @@ public class Transaction {
         return issueDate;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public User getUser() {
+        return user;
     }
 
-//    public double calculateBill(LocalDate returnDate){
-//        double fees = 0;
-//        if(returnDate.isAfter(dueDate)){
-//            long days = ChronoUnit.DAYS.between(dueDate, returnDate);
-//            fees += days * 100;
-//        }
-//        long days = ChronoUnit.DAYS.between(issueDate, dueDate);
-//        return fees + days * BASE_CHARGE_PER_DAY;
-//    }
+    public boolean isReturned(){
+        return returnDate != null;
+    }
+
+    public double calculateFees() {
+        long days = ChronoUnit.DAYS.between(issueDate, returnDate != null ? returnDate : LocalDate.now());
+        return days > 7 ? (days - 7) * 10 : 0.0; // First 7 days free, then ₹10/day
+    }
 }
