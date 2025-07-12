@@ -22,9 +22,13 @@ public class Test {
         System.out.println(emps);
 
         //Group by dept
-        Map<String, List<Employee>> employeesByDept = emps.stream()
-                .collect(Collectors.groupingBy(Employee::getDept));
-        System.out.println(employeesByDept);
+//        Map<String, List<Employee>> employeesByDept = emps.stream()
+//                .collect(Collectors.groupingBy(Employee::getDept));
+//        System.out.println(employeesByDept);
+
+        //Partition By Age >= 25
+        Map<Boolean, List<Employee>> collect = emps.stream().collect(Collectors.partitioningBy(e -> e.getAge() >= 25));
+        System.out.println(collect);
     }
 }
 
