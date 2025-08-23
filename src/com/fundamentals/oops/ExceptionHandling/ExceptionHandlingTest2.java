@@ -1,4 +1,4 @@
-package com.fundamentals.oops;
+package com.fundamentals.oops.ExceptionHandling;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.fundamentals.oops;
+package com.fundamentals.oops.ExceptionHandling;
 
 public class ExceptionHandlingTest {
     public static void main(String[] args) {
