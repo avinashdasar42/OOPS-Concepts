@@ -1,6 +1,4 @@
-package com.fundamentals.oops.concurrency.practice;
-
-import com.fundamentals.oops.concurrency.tutorials.mutex.Producer;
+package com.fundamentals.oops.concurrency.practice.ProducerConsumer;
 
 public class Main {
     public static void main(String[] args) {

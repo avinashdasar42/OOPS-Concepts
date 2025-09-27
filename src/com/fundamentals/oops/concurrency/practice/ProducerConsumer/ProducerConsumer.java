@@ -1,4 +1,4 @@
-package com.fundamentals.oops.concurrency.practice;
+package com.fundamentals.oops.concurrency.practice.ProducerConsumer;
 
 public class ProducerConsumer {
     private int data;
