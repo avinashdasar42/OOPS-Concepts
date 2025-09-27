@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SharedResource {
-    private Queue<Integer> queue;
-    private int bufferSize;
+    private final Queue<Integer> queue;
+    private final int bufferSize;
 
     public SharedResource(Queue<Integer> queue, int bufferSize){
         this.queue = queue;
