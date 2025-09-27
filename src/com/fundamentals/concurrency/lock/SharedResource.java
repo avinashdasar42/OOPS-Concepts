@@ -1,6 +1,5 @@
 package com.fundamentals.concurrency.lock;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 public class SharedResource {
